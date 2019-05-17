@@ -14,7 +14,7 @@ namespace EmployeeBenefitsCalculation.Controllers
         [HttpGet("[action]")]
         public double BenefitsCost()
         {
-            return 2000;
+            return 3000;
         }
 
     }
