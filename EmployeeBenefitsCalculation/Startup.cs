@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using StructureMap;
+using System;
 
 namespace EmployeeBenefitsCalculation
 {
@@ -17,15 +19,17 @@ namespace EmployeeBenefitsCalculation
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices(IServiceCollection services)
+        public IServiceProvider ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
-            // In production, the Angular files will be served from this directory
+           // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
             {
                 configuration.RootPath = "ClientApp/dist";
             });
+
+            return ConfigureIOC(services);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -62,6 +66,25 @@ namespace EmployeeBenefitsCalculation
                     spa.UseAngularCliServer(npmScript: "start");
                 }
             });
+        }
+
+        public IServiceProvider ConfigureIOC(IServiceCollection services)
+        {
+            var container = new Container();
+
+            container.Configure(config =>
+            {
+                config.Scan(_ =>
+                {
+                    _.Assembly("EmployeeBenefitsCalculation.Managers");
+                    _.LookForRegistries();
+                    _.WithDefaultConventions();
+                });
+
+                config.Populate(services);
+            });
+
+            return container.GetInstance<IServiceProvider>();
         }
     }
 }

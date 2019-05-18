@@ -1,10 +1,8 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using EmployeeBenefitsCalculation.Objects;
 using Microsoft.AspNetCore.Http;
+using EmployeeBenefitsCalculation.Managers;
 
 namespace EmployeeBenefitsCalculation.Controllers
 {
@@ -12,6 +10,12 @@ namespace EmployeeBenefitsCalculation.Controllers
     public class BenefitsCalculationController : Controller
     {
 
+        private readonly IBenefitsCalculationManager _benefitsCalculationManager;
+
+        public BenefitsCalculationController(IBenefitsCalculationManager benefitsCalculationManager)
+        {
+            _benefitsCalculationManager = benefitsCalculationManager;
+        }
 
         [HttpPost("[action]")]
         [ProducesResponseType(typeof(BenefitsCost), StatusCodes.Status200OK)]
@@ -23,13 +27,8 @@ namespace EmployeeBenefitsCalculation.Controllers
                 return BadRequest();
             }
 
-            var costs = new BenefitsCost();
-            costs.BenefitsCostPerPayCheck = 200;
-            costs.OtherDeductionsPerPayCheck = 0;
-            costs.GrossSalaryPerPayCheck = 2000;
-            costs.NetSalaryPerPayCheck = 1800;
-            costs.NumberOfPayChecksPerYear = 26;
-            return Ok(costs);
+            var costs =  _benefitsCalculationManager.CalculateBenefitsCost(employee);
+            return Ok(costs);   
         }
 
         private Boolean IsEmployeeValid(Employee employee)

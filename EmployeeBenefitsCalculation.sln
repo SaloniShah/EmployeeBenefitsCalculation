@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EmployeeBenefitsCalculation
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmployeeBenefitsCalculation.Objects", "EmployeeBenefitsCalculation.Objects\EmployeeBenefitsCalculation.Objects.csproj", "{C3D9F368-AC3E-47B8-B370-701F81B4CB39}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmployeeBenefitsCalculation.Managers", "EmployeeBenegitsCalculation.Managers\EmployeeBenefitsCalculation.Managers.csproj", "{F7E7C9B3-0693-4767-839E-5CF162431103}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{C3D9F368-AC3E-47B8-B370-701F81B4CB39}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C3D9F368-AC3E-47B8-B370-701F81B4CB39}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C3D9F368-AC3E-47B8-B370-701F81B4CB39}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F7E7C9B3-0693-4767-839E-5CF162431103}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F7E7C9B3-0693-4767-839E-5CF162431103}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F7E7C9B3-0693-4767-839E-5CF162431103}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F7E7C9B3-0693-4767-839E-5CF162431103}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
