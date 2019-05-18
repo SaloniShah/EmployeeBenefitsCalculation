@@ -1,7 +1,54 @@
 <h1>Employee Benefits Calculator</h1>
 
-<p>Welcome to the employee benefits calculator!</p>
+<div>Welcome to the employee benefits calculator!</div>
 
-<p>Current cost: <strong>{{ benefitsCost }}</strong></p>
+<div>
+ Enter employee name:
+  <input [(ngModel)]="employee && employee.name" />
+</div>
+
+<div>
+  Cover spouse in benefits?
+  <input type="checkbox" [(ngModel)]="spouseCovered"/>
+  <input [(ngModel)]="employee && employee.spouse && employee.spouse.name" [disabled]="!spouseCovered" />
+</div>
+
+<div>
+  How many dependents (excluding spouse)?  <input [(ngModel)]="numberOfDependents" />
+  <button class="btn btn-secondary" (click)="addDependents()">Add dependent names</button>
+</div>
+
+<div *ngIf="showDependentsArray">
+  <div *ngFor="let dependent of employee.dependents,  let idx = index">
+    Dependent {{idx+1}} name: <input [(ngModel)]="dependent.name"/>
+  </div>
+</div>
+
+<div *ngIf="employeeValidationError">
+  Employee name required!
+</div>
+
+<div *ngIf="spouseValidationError">
+  Spouse name required!
+</div>
+
+<div *ngIf="dependentValidationError">
+  Dependent names required!
+</div>
+
+
 
 <button class="btn btn-primary" (click)="calculateCosts()">Calculate costs</button>
+
+<div *ngIf="benefitsCost">
+  <div>Gross salary per paycheck: ${{ benefitsCost?.grossSalaryPerPayCheck }}</div>
+
+  <div>Benefit cost per paycheck: ${{ benefitsCost?.benefitsCostPerPayCheck }}</div>
+
+  <div>Other deductions per paycheck: ${{ benefitsCost?.otherDeductionsPerPayCheck }} </div>
+
+  <div>Net salary per paycheck: ${{ benefitsCost?.netSalaryPerPayCheck }}</div>
+
+  <div>Number of paychecks per year: {{ benefitsCost?.numberOfPayChecksPerYear }} </div>
+
+</div>
