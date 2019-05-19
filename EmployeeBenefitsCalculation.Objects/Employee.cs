@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace EmployeeBenefitsCalculation.Objects
 {
-    public class Employee
+    public class Employee : IPerson
     {
         public string Name { get; set; } 
 

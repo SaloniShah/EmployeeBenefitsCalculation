@@ -4,8 +4,8 @@ using System.Text;
 
 namespace EmployeeBenefitsCalculation.Objects
 {
-    public class Dependent :  IPerson
+    public interface IPerson
     {
-        public string Name { get; set; }
+        string Name { get; set; }
     }
 }

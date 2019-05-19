@@ -6,7 +6,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\EmployeeBenefitsCalculation.Objects\EmployeeBenefitsCalculation.Objects.csproj" />
-    <ProjectReference Include="..\EmployeeBenefitsCalculation.Repositories\EmployeeBenefitsCalculation.Repositories.csproj" />
   </ItemGroup>
 
 </Project>

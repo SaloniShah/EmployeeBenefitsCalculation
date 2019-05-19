@@ -77,6 +77,7 @@ namespace EmployeeBenefitsCalculation
                 config.Scan(_ =>
                 {
                     _.Assembly("EmployeeBenefitsCalculation.Managers");
+                    _.Assembly("EmployeeBenefitsCalculation.Repositories");
                     _.LookForRegistries();
                     _.WithDefaultConventions();
                 });
