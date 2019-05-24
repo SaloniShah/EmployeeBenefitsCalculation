@@ -14,6 +14,7 @@ To build just the UI, navigate to the *ClientApp* folder in a command window, an
 	* **The controller layer:** This layer receives the request and performs input validation before passing it on to the next layer.
 	* **The manager layer:** This layer is where all the business logic happens. It calls the next layer to get any data from the database.
 	* **The repository layer:** This layer interfaces with the databases.
+* The C# unit tests are written in **Xunit** with **Moq** for mocking and front end unit tests are written using the **Angular Test Bed**.
 * In order to not violate the open/closed principle, we have to take the following steps to add/remove/update a discount:
 	* Add a `discount` class that implements the `IDiscount` interface, in the *Discounts* folder in the `EmployeeBenefitsCalculation.Managers` project.
 	* Add the new class name to the `Discounts.json` file in the *Discounts* folder.
