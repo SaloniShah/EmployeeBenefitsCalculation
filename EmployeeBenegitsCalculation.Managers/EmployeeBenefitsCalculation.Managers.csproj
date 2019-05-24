@@ -5,8 +5,18 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\EmployeeBenefitsCalculation.Objects\EmployeeBenefitsCalculation.Objects.csproj" />
     <ProjectReference Include="..\EmployeeBenefitsCalculation.Repositories\EmployeeBenefitsCalculation.Repositories.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Discounts\Discounts.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

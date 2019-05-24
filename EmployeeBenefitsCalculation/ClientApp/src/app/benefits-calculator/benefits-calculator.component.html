@@ -2,53 +2,65 @@
 
 <div>Welcome to the employee benefits calculator!</div>
 
-<div>
- Enter employee name:
-  <input [(ngModel)]="employee && employee.name" />
-</div>
+<div class="form-group">
+  <div class="form-inline">
+    <label class="label-control">Enter employee name:</label>
+    <input class="form-control name-control" [(ngModel)]="employee && employee.name" />
+    <span *ngIf="employeeValidationError && (employee.name === null || employee.name === '')" class="invalid-control">
+      Employee name required!
+    </span>
+  </div>
+ 
+  <div class="form-inline">
+    <label class="label-control">Cover spouse in benefits?</label>
+    <input type="checkbox" class="form-check-input checkbox-control" [(ngModel)]="spouseCovered" />
+    <label class="label-control">Spouse name:</label>
+    <input class="form-control name-control" [(ngModel)]="employee && employee.spouse && employee.spouse.name" [disabled]="!spouseCovered" />
+    <span *ngIf="spouseValidationError && (employee.spouse.name === null || employee.spouse.name ==='') " class="invalid-control">
+        Spouse name required!
+    </span>
+  </div>
 
-<div>
-  Cover spouse in benefits?
-  <input type="checkbox" [(ngModel)]="spouseCovered"/>
-  <input [(ngModel)]="employee && employee.spouse && employee.spouse.name" [disabled]="!spouseCovered" />
-</div>
-
-<div>
-  How many dependents (excluding spouse)?  <input [(ngModel)]="numberOfDependents" />
-  <button class="btn btn-secondary" (click)="addDependents()">Add dependent names</button>
-</div>
-
-<div *ngIf="showDependentsArray">
-  <div *ngFor="let dependent of employee.dependents,  let idx = index">
-    Dependent {{idx+1}} name: <input [(ngModel)]="dependent.name"/>
+  <div class="form-inline">
+    <label class="label-control">How many dependents (excluding spouse)? </label> <input class="form-control dependent-control"  [(ngModel)]="numberOfDependents" />
+    <button class="btn btn-secondary" (click)="addDependents()">Add dependent names</button>
+    <span *ngIf="!showDependentsArray && numberOfDependents > 0" class="invalid-control">Dependent names required!</span>
+  </div>
+ 
+  <div *ngIf="showDependentsArray" >
+    <div class="form-inline" *ngFor="let dependent of employee.dependents, let idx = index">
+      <label class="label-control">Dependent {{idx+1}} name:</label> <input class="form-control name-control" [(ngModel)]="dependent.name" />
+       <span class="invalid-control" *ngIf="dependentValidationError && (dependent.name === null || dependent.name === '')">
+        Dependent name required!
+      </span>
+    </div>
   </div>
 </div>
 
-<div *ngIf="employeeValidationError">
-  Employee name required!
-</div>
-
-<div *ngIf="spouseValidationError">
-  Spouse name required!
-</div>
-
-<div *ngIf="dependentValidationError">
-  Dependent names required!
-</div>
-
-
-
 <button class="btn btn-primary" (click)="calculateCosts()">Calculate costs</button>
 
-<div *ngIf="benefitsCost">
-  <div>Gross salary per paycheck: ${{ benefitsCost?.grossSalaryPerPayCheck }}</div>
-
-  <div>Benefit cost per paycheck: ${{ benefitsCost?.benefitsCostPerPayCheck }}</div>
-
-  <div>Other deductions per paycheck: ${{ benefitsCost?.otherDeductionsPerPayCheck }} </div>
-
-  <div>Net salary per paycheck: ${{ benefitsCost?.netSalaryPerPayCheck }}</div>
-
-  <div>Number of paychecks per year: {{ benefitsCost?.numberOfPayChecksPerYear }} </div>
-
+<div *ngIf="benefitsCost" >
+  <div class="cost-control-title">Benefits cost</div>
+  <table class="cost-control">
+    <tr>
+      <td>Gross salary per paycheck:</td>
+      <td> ${{ benefitsCost?.grossSalaryPerPayCheck }}</td>
+    </tr>
+    <tr>
+      <td>Benefit cost per paycheck:</td>
+      <td> ${{ benefitsCost?.benefitsCostPerPayCheck }}</td>
+    </tr>
+    <tr>
+      <td>Other deductions per paycheck:</td>
+      <td> ${{ benefitsCost?.otherDeductionsPerPayCheck }} </td>
+    </tr>
+     <tr>
+        <td>Net salary per paycheck: </td>
+        <td>${{ benefitsCost?.netSalaryPerPayCheck }}</td>
+      </tr>
+    <tr>
+      <td>Number of paychecks per year: </td>
+      <td>{{ benefitsCost?.numberOfPayChecksPerYear }}</td>
+    </tr>
+  </table>
 </div>

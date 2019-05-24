@@ -1,1 +1,40 @@
-﻿
+:host {
+
+  .name-control {
+    width: 400px;
+    margin: 10px;
+  }
+
+  .checkbox-control {
+    margin-left: 10px;
+    margin-top: 10px;
+  }
+
+  .dependent-control {
+    width: 100px;
+    margin: 10px;
+  }
+
+  .label-control {
+    margin: 10px;
+  }
+
+  .cost-control {
+    border-style:dashed;
+    border-width: 1px;
+    border-color: gray;
+    margin:10px;
+    border-radius: 5px;
+  }
+
+  .cost-control-title {
+    font-weight: 500;
+    margin-left: 10px;
+    margin-top:10px;
+  }
+
+  .invalid-control {
+    color:red;
+    font-weight: 400;
+  }
+}

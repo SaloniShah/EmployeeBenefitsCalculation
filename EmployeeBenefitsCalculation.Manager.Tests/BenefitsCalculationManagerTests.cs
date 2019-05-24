@@ -5,22 +5,39 @@ using System.Collections.Generic;
 using Xunit;
 using Moq;
 using EmployeeBenefitsCalculation.Repositories;
+using EmployeeBenefitsCalculation.Managers.Discounts;
+
 namespace EmployeeBenefitsCalculation.Manager.Tests
 {
     public class BenefitsCalculationManangerTests
     {
         private readonly IBenefitsCalculationManager _benefitsCalculationManager;
         private readonly Mock<IEmployeeRepository> _employeeRepository;
+        private readonly Mock<IBenefitsRepository> _benefitsRepository;
+        private readonly Mock<IDiscountHelper> _discountHelper;
 
         public BenefitsCalculationManangerTests()
         {
             _employeeRepository = new Mock<IEmployeeRepository>();
-  
-            _benefitsCalculationManager = new BenefitsCalculationManager(_employeeRepository.Object);
+            _benefitsRepository = new Mock<IBenefitsRepository>();
+            _discountHelper = new Mock<IDiscountHelper>();
+
+            _benefitsCalculationManager = new BenefitsCalculationManager(_employeeRepository.Object, _benefitsRepository.Object, _discountHelper.Object);
             _employeeRepository.Setup(f => f.GetPerPaychheckGrossSalaryForEmployee(It.IsAny<Employee>())).Returns(2000);
             _employeeRepository.Setup(f => f.GetOtherDeducsiontsForEmployee(It.IsAny<Employee>())).Returns(0);
+            _benefitsRepository.Setup(f => f.GetYearlyBenefitsCostForEmployee()).Returns(1000);
+            _benefitsRepository.Setup(f => f.GetYearlyBenefitsCostForSpouse()).Returns(500);
+            _benefitsRepository.Setup(f => f.GetYearlyBenefitsCostForDependent()).Returns(500);
+            _discountHelper.Setup(f => f.GetApplicableDiscounts()).Returns(GetApplicationDiscounts());
 
         }
+
+       public List<IDiscount> GetApplicationDiscounts()
+       {
+            var discounts = new List<IDiscount>();
+            discounts.Add(new StartsWithADiscount());
+            return discounts;
+       }
 
         [Fact]
         public void Should_calculate_correct_cost_when_only_employee_present()

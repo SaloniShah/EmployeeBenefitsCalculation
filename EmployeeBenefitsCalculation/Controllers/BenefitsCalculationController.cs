@@ -40,7 +40,7 @@ namespace EmployeeBenefitsCalculation.Controllers
                 isValid = false;
             }
 
-            if (employee.Dependents.Count > 0)
+            if (employee.Dependents?.Count > 0)
             {
                 employee.Dependents.ForEach(d =>
                 {

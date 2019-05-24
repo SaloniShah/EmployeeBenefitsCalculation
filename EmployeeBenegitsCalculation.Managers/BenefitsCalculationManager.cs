@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Globalization;
+using EmployeeBenefitsCalculation.Managers.Discounts;
 using EmployeeBenefitsCalculation.Objects;
 using EmployeeBenefitsCalculation.Repositories;
 
@@ -8,18 +9,24 @@ namespace EmployeeBenefitsCalculation.Managers
     public class BenefitsCalculationManager : IBenefitsCalculationManager
     {
         private readonly IEmployeeRepository _employeeRepository;
+        private readonly IBenefitsRepository _benefitsRepository;
+        private readonly IDiscountHelper _discountHelper;
         
-        public BenefitsCalculationManager(IEmployeeRepository employeeRepository)
+        public BenefitsCalculationManager(IEmployeeRepository employeeRepository,
+                                           IBenefitsRepository benefitsRepository,
+                                           IDiscountHelper discountHelper)
         {
             _employeeRepository = employeeRepository;
+            _benefitsRepository = benefitsRepository;
+            _discountHelper = discountHelper;
         }
 
         public BenefitsCost CalculateBenefitsCost(Employee employee)
         {
                   
-            decimal yearlyBenefitCostForEmployee = 1000; //TODO: Configure values?
-            decimal yearlyBenefitCostForSpouse = 500;
-            decimal yearlyBenefitsCostForDependent = 500;
+            decimal yearlyBenefitCostForEmployee = _benefitsRepository.GetYearlyBenefitsCostForEmployee();
+            decimal yearlyBenefitCostForSpouse = _benefitsRepository.GetYearlyBenefitsCostForSpouse();
+            decimal yearlyBenefitsCostForDependent = _benefitsRepository.GetYearlyBenefitsCostForDependent();
             int numberOfPayChecksPerYear =26;
             decimal otherDeductions = _employeeRepository.GetOtherDeducsiontsForEmployee(employee);
             decimal grossSalaryPerPayCheck = _employeeRepository.GetPerPaychheckGrossSalaryForEmployee(employee);       
@@ -57,13 +64,14 @@ namespace EmployeeBenefitsCalculation.Managers
 
         public decimal getDiscountedPersonCost(decimal yearlyCost, IPerson person)
         {
-            //TODO: Configure discounts?
             var discountedCost = yearlyCost;
 
-            if (person.Name.StartsWith("A", true, CultureInfo.CurrentCulture)) 
+            var discounts = _discountHelper.GetApplicableDiscounts();
+
+            discounts.ForEach(d =>
             {
-                discountedCost = Math.Round(yearlyCost - (yearlyCost * 0.1m), 2);
-            }
+                discountedCost = discountedCost - d.GetDiscountAmount(yearlyCost, person);
+            });         
 
             return discountedCost;
         }   
